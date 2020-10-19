@@ -14,8 +14,8 @@ builder.withMasterUrl("https://localhost:6443")
         .withTrustCerts(true)
         .withUsername("admin")
         .withPassword("admin");
-PaasKubernetesClient paasKubernetesClient = new PaasKubernetesClient(builder.build())
-VirtualService vs = kubernetesClient.istios().virtualServices().inNamespace("bookinfo").withName("productpage").get();
+IstioClient istioClient = new IstioClient(builder.build())
+VirtualService vs = istioClient.istios().virtualServices().inNamespace("bookinfo").withName("productpage").get();
 ```
 
 2. 对象拼装
