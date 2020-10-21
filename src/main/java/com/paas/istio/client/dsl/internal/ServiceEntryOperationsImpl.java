@@ -31,7 +31,7 @@ public class ServiceEntryOperationsImpl extends HasMetadataOperation<ServiceEntr
     public ServiceEntryOperationsImpl(OperationContext context) {
         super(context.withApiGroupName("networking.istio.io")
                 .withApiGroupVersion("v1alpha3")
-                .withPlural("virtualservices"));
+                .withPlural("serviceentries"));
         this.type = ServiceEntry.class;
         this.listType = ServiceEntryList.class;
         this.doneableType = DoneableServiceEntry.class;

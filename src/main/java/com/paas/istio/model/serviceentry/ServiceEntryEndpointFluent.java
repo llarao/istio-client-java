@@ -15,19 +15,10 @@ import java.util.Map;
 public interface ServiceEntryEndpointFluent<A extends ServiceEntryEndpointFluent<A>> extends Fluent<A> {
 
 
-    List<String> getAddresss();
-    List<String> buildAddresss();
-    String buildAddresss(int index);
-    A withAddresss(List<String> items);
-    A withAddresss(String... items);
-    Boolean hasAddresss();
-    A addNewAddress(String specHttp);
-    A addToAddress(int index, String item);
-    A setToAddress(int index, String item);
-    A addToAddress(String... items);
-    A addAllToAddresss(Collection<String> items);
-    A removeFromAddress(String... items);
-    A removeAllFromAddresss(Collection<String> items);
+    String getAddress();
+    String buildAddress();
+    A withAddress(String items);
+    Boolean hasAddress();
 
     Map<String, Integer> getPort();
     Map<String, Integer> buildPort();

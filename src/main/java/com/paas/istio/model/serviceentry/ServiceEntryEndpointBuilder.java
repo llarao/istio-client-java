@@ -24,7 +24,7 @@ public class ServiceEntryEndpointBuilder extends ServiceEntryEndpointFluentImpl<
     }
     public ServiceEntryEndpointBuilder(ServiceEntryEndpointFluent<?> fluent, ServiceEntryEndpoint instance, Boolean validationEnabled){
             this.fluent = fluent;
-        fluent.withAddresss(instance.getAddress());
+        fluent.withAddress(instance.getAddress());
         fluent.withPort(instance.getPorts());
         fluent.withLabel(instance.getLabels());
         fluent.withNetwork(instance.getNetwork());
@@ -37,7 +37,7 @@ public class ServiceEntryEndpointBuilder extends ServiceEntryEndpointFluentImpl<
     }
     public ServiceEntryEndpointBuilder(ServiceEntryEndpoint instance, Boolean validationEnabled){
             this.fluent = this;
-        fluent.withAddresss(instance.getAddress());
+        fluent.withAddress(instance.getAddress());
         fluent.withPort(instance.getPorts());
         fluent.withLabel(instance.getLabels());
         fluent.withNetwork(instance.getNetwork());
@@ -49,7 +49,7 @@ public class ServiceEntryEndpointBuilder extends ServiceEntryEndpointFluentImpl<
 
     @Override
     public ServiceEntryEndpoint build(){
-        ServiceEntryEndpoint buildable = new ServiceEntryEndpoint(fluent.getAddresss(), fluent.getPort(), fluent.getLabel(), fluent.getNetwork(), fluent.getLocality(), fluent.getWeight());
+        ServiceEntryEndpoint buildable = new ServiceEntryEndpoint(fluent.getAddress(), fluent.getPort(), fluent.getLabel(), fluent.getNetwork(), fluent.getLocality(), fluent.getWeight());
         return buildable;
     }
 
