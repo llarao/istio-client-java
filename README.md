@@ -2,6 +2,10 @@
 
 istio-client是继承了 `fabric8-kubernetes-client` 的SDK包,包含对istio最基本的四种资源对象(Virtualservice,DestinationRule,Gateway,ServiceEntry)的链式拼装,暴露fabric一致的操作方法.
 
+实现方式
+
+[Java操作Istio（kubernetes-client）](https://blog.csdn.net/qq_34657543/article/details/106238261)
+ 
 ---
 ### 直接使用
 如果不需要其他包装,可以直接使用IstioClient进行资源操作,操作方法如下
