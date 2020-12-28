@@ -4,15 +4,20 @@ import com.paas.istio.model.destinationrule.DestinationRule;
 import com.paas.istio.model.destinationrule.DestinationRuleBuilder;
 import com.paas.istio.model.gateway.Gateway;
 import com.paas.istio.model.gateway.GatewayBuilder;
+import com.paas.istio.model.serviceentry.ServiceEntry;
+import com.paas.istio.model.serviceentry.ServiceEntryBuilder;
+import com.paas.istio.model.serviceentry.ServiceEntryEndpoint;
+import com.paas.istio.model.serviceentry.ServiceEntryPort;
 import com.paas.istio.model.virtualservice.VirtualService;
 import com.paas.istio.model.virtualservice.VirtualServiceBuilder;
 import io.fabric8.kubernetes.client.ConfigBuilder;
 import io.fabric8.kubernetes.client.utils.Serialization;
+import io.fabric8.zjsonpatch.internal.guava.Lists;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Classname Test
@@ -26,10 +31,11 @@ public class TestApi {
     public IstioClient buildSimpleKubernetesClient() throws IOException {
         final ConfigBuilder builder = new ConfigBuilder();
         builder.withMasterUrl("https://localhost:6443")
+                .withCaCertFile("/etc/kubernetes/ssl/kube-ca/kube-ca.pem");
                 /*TODO 如果client上有server的证书，就不需要配置trustCert了*/
-                .withTrustCerts(true)
-                .withUsername("admin")
-                .withPassword("admin");
+//                .withTrustCerts(true)
+//                .withUsername("admin")
+//                .withPassword("admin");
         return new IstioClient(builder.build());
 
     }
@@ -40,8 +46,9 @@ public class TestApi {
         builder.withMasterUrl("https://localhost:6443")
                 /*TODO 如果client上有server的证书，就不需要配置trustCert了*/
                 .withTrustCerts(true)
-                .withUsername("admin")
-                .withPassword("admin");
+                .withCaCertFile("/etc/kubernetes/ssl/kube-ca/kube-ca.pem");
+                //.withUsername("admin")
+               //.withPassword("admin");
         IstioClient istioClient = new IstioClient(builder.build());
         List<VirtualService> bookinfo = istioClient.istios().virtualServices().inNamespace("bookinfo").list().getItems();
         for (VirtualService virtualService : bookinfo) {
@@ -53,8 +60,6 @@ public class TestApi {
 
     @Test
     public void test2() throws IOException {
-
-
         VirtualService a = new VirtualServiceBuilder()
                 .withNewMetadata()
                 .withName("bookinfo-vs")
@@ -185,5 +190,40 @@ public class TestApi {
 
         System.out.println(gateway);
 
+    }
+    @Test
+    public void testServiceEntry() throws IOException {
+
+        ServiceEntryPort port = new ServiceEntryPort();
+        port.setName("http");
+        port.setProtocol("HTTP");
+        port.setNumber(9001);
+        ServiceEntryEndpoint see = new ServiceEntryEndpoint();
+        see.setAddress("10.1.0.58");
+        see.setWeight(10);
+
+        ServiceEntryEndpoint see2 = new ServiceEntryEndpoint();
+        see2.setAddress("10.1.0.57");
+        see2.setWeight(90);
+
+        ServiceEntry se = new ServiceEntryBuilder()
+                .withApiVersion("networking.istio.io/v1alpha3")
+                .withKind("ServiceEntry")
+                .withNewMetadata()
+                .withNamespace("kube-public")
+                .withName("product-entry")
+                .endMetadata()
+                .withNewSpec()
+                .withHosts("product-svc.kube-public")
+                .withLocation("MESH_EXTERNAL")
+                .withResolution("STATIC")
+                .withPorts(port)
+                .withEndpoints(see, see2)
+                .endSpec()
+                .build();
+        System.out.println(se.toString());
+
+        IstioClient kubernetesClient =  buildSimpleKubernetesClient();
+        kubernetesClient.istios().serviceEntrys().create(se);
     }
 }

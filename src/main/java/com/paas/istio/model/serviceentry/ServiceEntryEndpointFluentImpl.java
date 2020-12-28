@@ -17,7 +17,7 @@ import java.util.Map;
  * @Create by llarao
  */
 public class ServiceEntryEndpointFluentImpl<A extends ServiceEntryEndpointFluent<A>> extends io.fabric8.kubernetes.api.builder.BaseFluent<A> implements ServiceEntryEndpointFluent<A> {
-    private List<String> address;
+    private String address;
     private Map<String, Integer> ports;
     private Map<String, String> labels;
     private String network;
@@ -27,7 +27,7 @@ public class ServiceEntryEndpointFluentImpl<A extends ServiceEntryEndpointFluent
     public ServiceEntryEndpointFluentImpl(){
     }
     public ServiceEntryEndpointFluentImpl(ServiceEntryEndpoint instance){
-        this.withAddresss(instance.getAddress());
+        this.withAddress(instance.getAddress());
         this.withPort(instance.getPorts());
         this.withLabel(instance.getLabels());
         this.withNetwork(instance.getNetwork());
@@ -36,113 +36,25 @@ public class ServiceEntryEndpointFluentImpl<A extends ServiceEntryEndpointFluent
     }
 
     @Override
-    public List<String> getAddresss() {
-        return this.address==null?new ArrayList<>():this.address;
+    public String getAddress() {
+        return this.address;
     }
 
     @Override
-    public List<String> buildAddresss() {
-        return this.address==null?new ArrayList<>():this.address;
+    public String buildAddress() {
+        return this.address;
     }
 
-    @Override
-    public String buildAddresss(int index) {
-        return this.address.get(index);
-    }
 
     @Override
-    public A withAddresss(List<String> items) {
-        if (items!=null) {
-            this.address = items;
-        }
+    public A withAddress(String address) {
+        this.address = address;
         return (A)this;
     }
 
     @Override
-    public A withAddresss(String... items) {
-        if (this.address==null) {
-            this.address = new ArrayList<>();
-        }
-        if (items!=null) {
-            this.address.addAll(Arrays.asList(items));
-        }
-        return (A)this;
-    }
-
-    @Override
-    public Boolean hasAddresss() {
+    public Boolean hasAddress() {
         return this.address != null;
-    }
-
-    @Override
-    public A addNewAddress(String specHttp) {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-        return (A)this;
-    }
-
-    @Override
-    public A addToAddress(int index, String item) {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-        this.address.add(index, item);
-        return (A)this;    }
-
-    @Override
-    public A setToAddress(int index, String item) {
-        if (this.address==null) {
-            this.address = new ArrayList<>();
-        }
-        if (this.address.size() >= index) {
-            this.address.set(index, item);
-        } else {
-            this.address.add(item);
-        }
-        return (A)this;
-    }
-
-    @Override
-    public A addToAddress(String... items) {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-
-        this.address.addAll(Arrays.asList(items));
-        return (A)this;
-    }
-
-    @Override
-    public A addAllToAddresss(Collection<String> items) {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-
-        this.address.addAll(items);
-        return (A)this;
-    }
-
-    @Override
-    public A removeFromAddress(String... items) {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-        for (String item : items) {
-            this.address.remove(item);
-        }
-        return (A)this;
-    }
-
-    @Override
-    public A removeAllFromAddresss(Collection<String> items) {
-        if (this.address == null) {
-            this.address = new ArrayList<>();
-        }
-        for (String item : items) {
-            this.address.remove(item);
-        }
-        return (A)this;
     }
 
     @Override

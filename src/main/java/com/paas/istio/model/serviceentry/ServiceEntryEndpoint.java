@@ -39,7 +39,7 @@ public class ServiceEntryEndpoint implements KubernetesResource {
     /**
      * 必填字段,标识网络后端地址
      */
-    private List<String> address;
+    private String address;
 
     /**
      * 端口
